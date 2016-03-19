@@ -6,7 +6,64 @@
 {% endblock %}
 
 {% block content %}
-    <b>test!</b>
+    <!-- Page Header -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Page Heading
+                <small>Secondary Text</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Projects Row -->
+    <div class="row">
+      {% for entry in entries['responseData']['feed']['entries'] %}
+        <div class="col-xs-6 col-lg-4 portfolio-item">
+          <div class="thumbnail">
+            <div class="thumbnail-image-wrapper">
+              <a href="{{ entry['link'] }}"><img class="img-responsive" src="http://placehold.it/700x400" alt=""></a>
+            </div>
+            <h3 class="thumbnail-caption"><a href="{{ entry['link'] }}">{{ entry['title'] }}</a></h3>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Pagination -->
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <ul class="pagination">
+                <li>
+                    <a href="#">&laquo;</a>
+                </li>
+                <li class="active">
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+                <li>
+                    <a href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
 {% endblock %}
 
 {% block script %}

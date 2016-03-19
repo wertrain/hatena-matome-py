@@ -1,0 +1,35 @@
+body {
+    padding-top: 70px;
+    font-family:  "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, Meiryo, sans-serif;
+}
+
+/* 共通センタリング */
+.text-center {
+    text-align: center;
+}
+
+/* ツイートサムネイル表示全体 */
+.thumbnail {
+    text-align: center;
+    height: 340px;
+}
+
+.thumbnail-image-wrapper {
+    overflow: hidden;
+    height: 200px;
+}
+
+.thumbnail-caption {
+    max-height: 110px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.portfolio-item {
+    margin-bottom: 25px;
+}
+
+footer {
+    margin: 50px 0;
+}
