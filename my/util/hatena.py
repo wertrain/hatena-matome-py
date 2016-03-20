@@ -17,5 +17,17 @@ def get_hotentry(num=20):
     if result.status_code == 200:
         return result.content
     else:
-        logging.error('/system/hotentry - ' + result.status_code)
+        logging.error('get_hotentry - ' + result.status_code)
+    return None
+
+def get_entry(url):
+    u"""
+        エントリーを取得する
+    """
+    apilite = 'http://b.hatena.ne.jp/entry/jsonlite/?url=' + url
+    result = urlfetch.fetch(apilite)
+    if result.status_code == 200:
+        return result.content
+    else:
+        logging.error('get_entry - ' + result.status_code)
     return None
