@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+    .comment-strong-1 { font-size: large; font-weight: 500; }
+    .comment-strong-2 { font-size: large; font-weight: 700; }
+    .comment-strong-3 { font-size: large; font-weight: 700; color: #ff0000; }
+    .comment-strong-4 { font-size: x-large; font-weight: 500; }
+    .comment-strong-5 { font-size: x-large; font-weight: 700; }
+    .comment-strong-6 { font-size: x-large; font-weight: 700; color: #ff0000; }
+    .comment-strong-7 { font-size: xx-large; font-weight: 500; }
+    .comment-strong-8 { font-size: xx-large; font-weight: 700; }
+    .comment-strong-9 { font-size: xx-large; font-weight: 700; color: #ff0000; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Page Heading
+                <small>Secondary Text</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    
+    <div class="well">
+      {% for comment in comments %}
+        {{ loop.index }} ：
+        <font color="green"><b>はてなのユーザー</b></font>
+        ：{{ comment.at.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.user }}</br>
+        <p class='comment-strong-4'>{{ comment.comment }}</p>
+      {% endfor %}
+    </div>
+    
+    <hr>
+{% endblock %}
+
+{% block script %}
+  <script>
+  </script>
+{% endblock %}
