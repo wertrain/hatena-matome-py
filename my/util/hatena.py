@@ -7,6 +7,7 @@ u"""
 import json
 import urllib
 import logging
+import re
 from datetime import datetime
 from google.appengine.ext import db
 from google.appengine.api import urlfetch
@@ -55,3 +56,11 @@ def get_star_score(result):
     for colored in result['entries'][0]['colored_stars']:
         score += len(colored['stars']) * table[colored['color']]
     return score
+
+_quote_by_backslash = re.compile(u'([\'"\\\\])')
+def quote_by_backslash(s):
+    return _quote_by_backslash.sub(ur'\\\1', s)
+
+_remove_backslash = re.compile(ur'\\(.)')
+def remove_backslash(s):
+    return _remove_backslash.sub(ur'\1', s)

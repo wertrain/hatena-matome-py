@@ -26,8 +26,14 @@
     <!-- /.row -->
     
     <div class="well">
+      1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
+      <p>
+        {{ content|safe }}
+        （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
+      </p>
+      
       {% for comment in comments %}
-        {{ loop.index }} ：
+        {{ (loop.index + 1) }} ：
         <font color="green"><b>はてなのユーザー</b></font>
         ：{{ comment.at.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.user }}</br>
         <p class='comment-strong-4'>{{ comment.comment }}</p>
