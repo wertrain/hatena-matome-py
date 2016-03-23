@@ -6,6 +6,7 @@ from api import apis
 from datetime import datetime
 from flask import Flask, render_template
 from my.util import hatena
+from my.db import datastore
 from google.appengine.api import memcache
 
 app = Flask(__name__)
@@ -25,29 +26,14 @@ def home():
     hotentries = json.loads(hotentries)
     return render_template('home.html', entries=hotentries)
 
-@app.route('/entry/test')
-def entry():
+@app.route('/entry/<eid>')
+def entry(eid):
     """エントリーページを表示する"""
-    entry = hatena.fetch_entry('http://shousha-ol.hatenadiary.jp/entry/2016/01/27/223746')
-    entry = json.loads(entry)
-    content = hatena.remove_backslash(u'<blockquote title=\"はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE\"><cite><img src=\"http://cdn-ak.favicon.st-hatena.com/?url=http%3A%2F%2Flineblog.me%2F\" alt=\"\"> <a href=\"http://lineblog.me/ha_chu/archives/56947577.html\">はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE</a></cite><p><a href=\"http://lineblog.me/ha_chu/archives/56947577.html\"><img src=\"http://cdn-ak.b.st-hatena.com/entryimage/282693361-1458472448.jpg\" alt=\"はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE\" title=\"はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE\"></a></p><p>はあちゅう @ha_chu 海外にやたら行く自己啓発系の人って「旅＝クリエイティブ！クリエイティブな私に、ほらみんな！憧れて！！」というオーラを発しているんだけど、ひとつの場所で淡々と仕事するほうがよっぽどクリエイティブだと思う。私は仕事が好きな人が好きだし、旅人の言葉より仕事人の言葉のほうに重みを感じる 2016/03/20 18:29:41 はあちゅう @ha_chu 旅での刺激は外部からもら...</p><p><a href=\"http://b.hatena.ne.jp/entry/http://lineblog.me/ha_chu/archives/56947577.html\"><img src=\"http://b.hatena.ne.jp/entry/image/http://lineblog.me/ha_chu/archives/56947577.html\" alt=\"はてなブックマーク - はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE\" title=\"はてなブックマーク - はあちゅう 公式ブログ - 旅で人生が変わったとか言う人は中身がゼロなのです - Powered by LINE\" border=\"0\" style=\"border:none\"></a> <a href=\"http://b.hatena.ne.jp/append?http://lineblog.me/ha_chu/archives/56947577.html\"><img src=\"http://b.hatena.ne.jp/images/append.gif\" border=\"0\" alt=\"はてなブックマークに追加\" title=\"はてなブックマークに追加\"></a></p></blockquote><img src=\"http://feeds.feedburner.com/~r/hatena/b/hotentry/~4/al_CorpWOxY\" height=\"1\" width=\"1\" alt=\"\">')
-    comments = []
-    for bookmark in entry['bookmarks']:
-        if bookmark['comment']:
-            # コメントからスターを取得する
-            commentat = datetime.strptime(bookmark['timestamp'], '%Y/%m/%d %H:%M:%S')
-            stars = json.loads(hatena.fetch_comment_star(bookmark['user'], commentat, entry['eid']))
-            # コメントがあるが、スター部分の形式が違うものがあるので除外
-            if len(stars['entries']) == 0:
-                continue
-            comments.append({
-                'at': commentat,
-                'user': bookmark['user'],
-                'comment': bookmark['comment'],
-                'score': hatena.get_star_score(stars)
-            })
-            time.sleep(0.5)
-    return render_template('entry.html', content=content, comments=reversed(comments))
+    entry = datastore.get_public_entry(int(eid))
+    comments = []   
+    for comment in entry.bookmarkcomment_set:
+        comments.append(comment)
+    return render_template('entry.html', entry=entry, comments=comments)
 
 @app.errorhandler(404)
 def page_not_found(e):

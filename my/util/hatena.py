@@ -42,6 +42,22 @@ def fetch_comment_star(id, date, eid):
     apiurl = 'http://s.hatena.com/entry.json?uri=' + urllib.quote(url)
     return __urlfetch(apiurl)
 
+def get_star_count(result, color):
+    u"""
+        スターの個数を取得する
+    """
+    if len(result['entries']) == 0:
+        return 0
+    if color == 'yellow':
+        return len(result['entries'][0]['stars'])
+    else:
+        if 'colored_stars' not in result['entries'][0]:
+            return 0
+        for colored in result['entries'][0]['colored_stars']:
+            if colored['color'] == color:
+                return len(colored['stars'])
+    return 0
+
 def get_star_score(result):
     u"""
         スターからスコアを計算する
