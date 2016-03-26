@@ -17,6 +17,11 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 @app.route('/')
 def home():
+    entries = datastore.get_public_entries()
+    return render_template('home.html', entries=entries)
+
+@app.route('/hotentries')
+def hotentries():
     """トップページを表示する"""
     memcache_key = 'hotentries';
     hotentries = memcache.get(memcache_key)
@@ -30,7 +35,7 @@ def home():
 def entry(eid):
     """エントリーページを表示する"""
     entry = datastore.get_public_entry(int(eid))
-    comments = []   
+    comments = []
     for comment in entry.bookmarkcomment_set:
         comments.append(comment)
     return render_template('entry.html', entry=entry, comments=comments)

@@ -18,19 +18,18 @@
 
     <!-- Projects Row -->
     <div class="row">
-      {% for entry in entries['responseData']['feed']['entries'] %}
+      {% for entry in entries %}
         <div class="col-xs-6 col-lg-4 portfolio-item">
           <div class="thumbnail">
             <div class="thumbnail-image-wrapper">
-              <a href="{{ entry['link'] }}"><img class="img-responsive" src="http://placehold.it/700x400" alt=""></a>
+              <a href="/entry/{{ entry['eid'] }}"><img class="img-responsive" src="{{ entry['screenshot'] }}" alt="{{ entry['title'] }} のスクリーンショット"></a>
             </div>
-            <h3 class="thumbnail-caption"><a href="{{ entry['link'] }}">{{ entry['title'] }}</a></h3>
+            <h3 class="thumbnail-caption"><a href="/entry/{{ entry['eid'] }}">{{ entry['title'] }}</a></h3>
           </div>
         </div>
       {% endfor %}
     </div>
     <!-- /.row -->
-
     <hr>
 
     <!-- Pagination -->

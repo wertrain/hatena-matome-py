@@ -18,6 +18,7 @@ class EntryBase(db.Model):
     content = db.TextProperty()
     content_snippet = db.TextProperty()
     categories = db.StringListProperty(default=[])
+    created_date = db.DateTimeProperty(auto_now_add=True)
 
 class PrivateEntry(EntryBase):
     u"""
@@ -77,6 +78,12 @@ def get_private_entry():
 def get_public_entry(eid):
     return db.Query(PublicEntry).filter('eid =', eid).get()
 
+def get_public_entries():
+    entries = []
+    for entry in PublicEntry.all().order('created_date'):
+        entries.append(entry)
+    return entries
+
 def publish_entry(private, param):
     public = PublicEntry()
     public.title = private.title
@@ -86,6 +93,7 @@ def publish_entry(private, param):
     public.content = private.content
     public.content_snippet = private.content_snippet
     public.categories = private.categories
+    public.created_date = private.created_date
     public.eid = param.get('eid')
     public.screenshot = param.get('screenshot')
     private.delete()

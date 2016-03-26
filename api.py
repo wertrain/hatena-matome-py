@@ -40,7 +40,11 @@ def openentry():
         if bookmark['comment']:
             # コメントからスターを取得する
             commentat = datetime.strptime(bookmark['timestamp'], '%Y/%m/%d %H:%M:%S')
-            stars = json.loads(hatena.fetch_comment_star(bookmark['user'], commentat, entry['eid']))
+            stars = hatena.fetch_comment_star(bookmark['user'], commentat, entry['eid'])
+            # スター数が取れなかった場合 API の連続呼び出しで規制を受けた可能性がある
+            if stars is None:
+                return 'process interrupt';
+            stars = json.loads(stars)
             # コメントがあるが、スター部分の形式が違うものがあるので除外
             if len(stars['entries']) == 0:
                 continue
@@ -54,5 +58,5 @@ def openentry():
                 'red_star_count': hatena.get_star_count(stars, 'red'),
                 'blue_star_count': hatena.get_star_count(stars, 'blue')
             })
-            time.sleep(0.5)
+            time.sleep(0.1)
     return 'publish entry - ' + public.url
