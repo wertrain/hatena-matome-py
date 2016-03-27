@@ -34,8 +34,7 @@
     
     {% for comment in comments %}
       {{ (loop.index + 1) }} ：
-      <font color="green"><b>はてなのユーザー</b></font>
-      ：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+      <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
       {% if comment.score > 65 %}<p class="comment-strong-9">
       {% elif comment.score > 60 %}<p class="comment-strong-8">
       {% elif comment.score > 50 %}<p class="comment-strong-7">

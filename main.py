@@ -42,7 +42,8 @@ def entry(eid):
           'data': comment,
           'score': hatena.get_star_score(comment),
         })
-    return render_template('entry.html', entry=entry, comments=comments)
+    table = [70, 60, 50, 40, 35, 20, 10, 5, 1]
+    return render_template('entry.html', entry=entry, comments=comments, score_table=table)
 
 @app.errorhandler(404)
 def page_not_found(e):
