@@ -36,8 +36,12 @@ def entry(eid):
     """エントリーページを表示する"""
     entry = datastore.get_public_entry(int(eid))
     comments = []
+    score = 0
     for comment in entry.bookmarkcomment_set:
-        comments.append(comment)
+        comments.append({
+          'data': comment,
+          'score': hatena.get_star_score(comment),
+        })
     return render_template('entry.html', entry=entry, comments=comments)
 
 @app.errorhandler(404)

@@ -2,15 +2,15 @@
 
 {% block style %}
     <style>
-    .comment-strong-1 { font-size: large; font-weight: 500; }
-    .comment-strong-2 { font-size: large; font-weight: 700; }
-    .comment-strong-3 { font-size: large; font-weight: 700; color: #ff0000; }
-    .comment-strong-4 { font-size: x-large; font-weight: 500; }
-    .comment-strong-5 { font-size: x-large; font-weight: 700; }
-    .comment-strong-6 { font-size: x-large; font-weight: 700; color: #ff0000; }
-    .comment-strong-7 { font-size: xx-large; font-weight: 500; }
-    .comment-strong-8 { font-size: xx-large; font-weight: 700; }
-    .comment-strong-9 { font-size: xx-large; font-weight: 700; color: #ff0000; }
+    .comment-strong-1 { font-size: large; font-weight: 600; }
+    .comment-strong-2 { font-size: large; font-weight: 800; color: #ff6600; }
+    .comment-strong-3 { font-size: large; font-weight: 800; color: #ff0000; }
+    .comment-strong-4 { font-size: x-large; font-weight: 600; }
+    .comment-strong-5 { font-size: x-large; font-weight: 800; color: #ff6688; }
+    .comment-strong-6 { font-size: x-large; font-weight: 800; color: #ff0000; }
+    .comment-strong-7 { font-size: xx-large; font-weight: 600; }
+    .comment-strong-8 { font-size: xx-large; font-weight: 800; color: #ff6622; }
+    .comment-strong-9 { font-size: xx-large; font-weight: 800; color: #ff0000; }
     </style>
 {% endblock %}
 
@@ -35,8 +35,18 @@
     {% for comment in comments %}
       {{ (loop.index + 1) }} ：
       <font color="green"><b>はてなのユーザー</b></font>
-      ：{{ comment.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.hatena_id }}</br>
-      <p class=''>{{ comment.comment }}</p>
+      ：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+      {% if comment.score > 65 %}<p class="comment-strong-9">
+      {% elif comment.score > 60 %}<p class="comment-strong-8">
+      {% elif comment.score > 50 %}<p class="comment-strong-7">
+      {% elif comment.score > 40 %}<p class="comment-strong-6">
+      {% elif comment.score > 35 %}<p class="comment-strong-5">
+      {% elif comment.score > 20 %}<p class="comment-strong-4">
+      {% elif comment.score > 10 %}<p class="comment-strong-3">
+      {% elif comment.score > 5 %}<p class="comment-strong-2">
+      {% elif comment.score > 1 %}<p class="comment-strong-1">
+      {% endif %}
+      {{ comment.data.comment }}</p>
     {% endfor %}
 
     <hr>
