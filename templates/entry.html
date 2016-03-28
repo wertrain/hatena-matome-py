@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">{{ entry.title }}
-                <small>Secondary Text</small>
+                <small>はてなの人気エントリー</small>
             </h3>
         </div>
     </div>
@@ -35,17 +35,7 @@
     {% for comment in comments %}
       {{ (loop.index + 1) }} ：
       <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
-      {% if comment.score > 65 %}<p class="comment-strong-9">
-      {% elif comment.score > 60 %}<p class="comment-strong-8">
-      {% elif comment.score > 50 %}<p class="comment-strong-7">
-      {% elif comment.score > 40 %}<p class="comment-strong-6">
-      {% elif comment.score > 35 %}<p class="comment-strong-5">
-      {% elif comment.score > 20 %}<p class="comment-strong-4">
-      {% elif comment.score > 10 %}<p class="comment-strong-3">
-      {% elif comment.score > 5 %}<p class="comment-strong-2">
-      {% elif comment.score > 1 %}<p class="comment-strong-1">
-      {% endif %}
-      {{ comment.data.comment }}</p>
+      <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
     {% endfor %}
 
     <hr>

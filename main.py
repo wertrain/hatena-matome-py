@@ -40,10 +40,16 @@ def entry(eid):
     for comment in entry.bookmarkcomment_set:
         comments.append({
           'data': comment,
-          'score': hatena.get_star_score(comment),
+          'score': __style_from_score(hatena.get_star_score(comment)),
         })
-    table = [70, 60, 50, 40, 35, 20, 10, 5, 1]
-    return render_template('entry.html', entry=entry, comments=comments, score_table=table)
+    return render_template('entry.html', entry=entry, comments=comments)
+
+def __style_from_score(score):
+    score_table = [70, 60, 50, 40, 35, 20, 10, 5, 1]
+    for i, value in enumerate(score_table):
+        if score > value:
+            return len(score_table) - i
+    return 0
 
 @app.errorhandler(404)
 def page_not_found(e):
