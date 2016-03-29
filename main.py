@@ -45,6 +45,7 @@ def entry(eid):
     return render_template('entry.html', entry=entry, comments=comments)
 
 def __style_from_score(score):
+    """スコアを計算して、0-9の値を返す"""
     score_table = [70, 60, 50, 40, 35, 20, 10, 5, 1]
     for i, value in enumerate(score_table):
         if score > value:
