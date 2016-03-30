@@ -36,6 +36,7 @@
       {{ (loop.index + 1) }} ：
       <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
       <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
+      </br>
     {% endfor %}
 
     <hr>
