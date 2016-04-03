@@ -52,6 +52,11 @@ def __style_from_score(score):
             return len(score_table) - i
     return 0
 
+@app.route('/category/<category>')
+def category(category):
+    """エントリーページを表示する"""
+    return render_template('entry.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""

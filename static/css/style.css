@@ -82,11 +82,11 @@ h6, .h6 {
 .blog-title {
   margin-top: 30px;
   margin-bottom: 0;
-  font-size: 60px;
+  font-size: 30px;
   font-weight: normal;
 }
 .blog-description {
-  font-size: 20px;
+  font-size: 15px;
   color: #999;
 }
 
@@ -135,11 +135,11 @@ h6, .h6 {
  */
 
 .blog-post {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 .blog-post-title {
   margin-bottom: 5px;
-  font-size: 40px;
+  font-size: 24px;
 }
 .blog-post-meta {
   margin-bottom: 20px;
@@ -160,35 +160,4 @@ h6, .h6 {
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
-}
-
-/* 共通センタリング */
-.text-center {
-    text-align: center;
-}
-
-/* ツイートサムネイル表示全体 */
-.thumbnail {
-    text-align: center;
-    height: 340px;
-}
-
-.thumbnail-image-wrapper {
-    overflow: hidden;
-    height: 200px;
-}
-
-.thumbnail-caption {
-    max-height: 110px;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.portfolio-item {
-    margin-bottom: 25px;
-}
-
-footer {
-    margin: 50px 0;
 }
