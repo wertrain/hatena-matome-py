@@ -21,7 +21,7 @@ def hotentry():
             'content': entry['content'],
             'content_snippet': entry['contentSnippet'],
             'published_date': datetime.strptime(entry['publishedDate'], '%a, %d %b %Y %H:%M:%S -0700'),
-            'categories': []
+            'categories': entry['categories']
         })
     return 'add entries.'
 

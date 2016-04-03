@@ -15,31 +15,33 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">{{ entry.title }}
-                <small>はてなの人気エントリー</small>
-            </h3>
-        </div>
-    </div>
-    <!-- /.row -->
-    
-    1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
-    ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
-    <p>
-      {{ entry.content|safe }}
-      （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
-    </p>
-    
-    {% for comment in comments %}
-      {{ (loop.index + 1) }} ：
-      <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
-      <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
-      </br>
-    {% endfor %}
+      <div class="row">
+        <div class="col-sm-8 blog-main">
 
-    <hr>
+        <!-- Page Header -->
+        <div class="col-lg-12">
+          <h3 class="page-header">{{ entry.title }}
+            <small>はてなの人気エントリー</small>
+          </h3>
+        </div>
+        
+        1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
+        ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
+        <p>
+          {{ entry.content|safe }}
+          （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
+        </p>
+        
+        {% for comment in comments %}
+          {{ (loop.index + 1) }} ：
+          <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+          <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
+          </br>
+        {% endfor %}
+
+        </div><!-- /.blog-main -->
+        {% include 'sidebar.html' %}
+      </div><!-- /.row -->
 {% endblock %}
 
 {% block script %}
