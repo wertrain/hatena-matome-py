@@ -5,8 +5,17 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /image/.*\.svg
+  static_dir: static/image
+  http_headers:
+    content_type: image/svg+xml
+
+- url: /image
+  static_dir: static/image
+  
 - url: .*
   script: main.app
+
 
 libraries:
 - name: jinja2
