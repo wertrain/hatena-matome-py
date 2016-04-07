@@ -95,7 +95,11 @@ h6, .h6 {
 /*
  * Main column and sidebar layout
  */
-
+.blog-main-container {
+  padding: 30px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
 .blog-main {
   font-size: 18px;
   line-height: 1.5;

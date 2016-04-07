@@ -20,23 +20,26 @@
         <p class="lead blog-description">はてなの人気エントリー</p>
       </div>
       <div class="row">
-        <div class="col-sm-8 blog-main well">
+        <div class="col-sm-8 blog-main-container">
+          <div class="blog-main">
 
-        1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
-        ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
-        <p>
-          {{ entry.content|safe }}
-          （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
-        </p>
-        
-        {% for comment in comments %}
-          {{ (loop.index + 1) }} ：
-          <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
-          <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
+          1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
+          ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
+          <p>
+            {{ entry.content|safe }}
+            （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
+          </p>
           </br>
-        {% endfor %}
+          
+          {% for comment in comments %}
+            {{ (loop.index + 1) }} ：
+            <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+            <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
+            </br>
+          {% endfor %}
 
-        </div><!-- /.blog-main -->
+          </div><!-- /.blog-main -->
+        </div><!-- /.blog-main-container-->
         {% include 'sidebar.html' %}
       </div><!-- /.row -->
 {% endblock %}
