@@ -19,6 +19,18 @@ class EntryBase(db.Model):
     content_snippet = db.TextProperty()
     categories = db.StringListProperty(default=[])
     created_date = db.DateTimeProperty(auto_now_add=True)
+    def __len__(self):
+        return len(self.__dict__)
+    def __repr__(self):
+        return str(self.__dict__)
+    def __str__(self):
+        return str(self.__dict__)
+    def __iter__(self):
+        return self.__dict__.iteritems()
+    def __getitem__(self, key):
+        return self.__dict__[key]
+    def __setitem__(self, key, value):
+        self.__dict__[key] = value
 
 class PrivateEntry(EntryBase):
     u"""

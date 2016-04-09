@@ -31,6 +31,11 @@ def hotentries():
     hotentries = json.loads(hotentries)
     return render_template('home.html', entries=hotentries)
 
+def __sidebar_entry():
+    """サイドバー表示を管理"""
+    entries = datastore.get_public_entries()
+    return entries
+
 @app.route('/entry/<eid>')
 def entry(eid):
     """エントリーページを表示する"""
