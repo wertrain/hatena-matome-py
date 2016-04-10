@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
-import urllib
 import time
-from google.appengine.api import memcache
 from my.util import hatena
 from my.db import datastore
 from datetime import datetime

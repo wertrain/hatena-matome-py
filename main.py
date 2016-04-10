@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import json
-import time
 import pickle
 from api import apis
 from datetime import datetime
@@ -25,17 +23,6 @@ def home():
         memcache.add(memcache_key, entries, 60 * 60 * 24)
     entries = pickle.loads(str(entries))
     return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry())
-
-@app.route('/hotentries')
-def hotentries():
-    """トップページを表示する"""
-    memcache_key = 'hotentries';
-    hotentries = memcache.get(memcache_key)
-    if hotentries is None:
-        hotentries = hatena.fetch_hotentry()
-        memcache.add(memcache_key, hotentries, 60 * 60 * 24)
-    hotentries = json.loads(hotentries)
-    return render_template('home.html', entries=hotentries)
 
 def __sidebar_entry():
     """サイドバー表示を管理"""
