@@ -19,18 +19,6 @@ class EntryBase(db.Model):
     content_snippet = db.TextProperty()
     categories = db.StringListProperty(default=[])
     created_date = db.DateTimeProperty(auto_now_add=True)
-    def __len__(self):
-        return len(self.__dict__)
-    def __repr__(self):
-        return str(self.__dict__)
-    def __str__(self):
-        return str(self.__dict__)
-    def __iter__(self):
-        return self.__dict__.iteritems()
-    def __getitem__(self, key):
-        return self.__dict__[key]
-    def __setitem__(self, key, value):
-        self.__dict__[key] = value
 
 class PrivateEntry(EntryBase):
     u"""
@@ -43,6 +31,7 @@ class PublicEntry(EntryBase):
     """
     eid = db.IntegerProperty()
     screenshot = db.LinkProperty()
+    bookmark_count = db.IntegerProperty(default=0)
 
 class BookmarkComment(db.Model):
     hatena_id = db.StringProperty()
@@ -90,9 +79,15 @@ def get_private_entry():
 def get_public_entry(eid):
     return db.Query(PublicEntry).filter('eid =', eid).get()
 
-def get_public_entries():
+def get_public_entries(limit=10, offset=0):
     entries = []
-    for entry in PublicEntry.all().order('created_date'):
+    for entry in PublicEntry.all().order('created_date').run(limit=limit, offset=offset):
+        entries.append(entry)
+    return entries
+
+def get_public_entries_in_category(category, limit=10, offset=0):
+    entries = []
+    for entry in db.Query(PublicEntry).filter('categories =', category).order('created_date').run(limit=limit, offset=offset):
         entries.append(entry)
     return entries
 
@@ -108,6 +103,15 @@ def publish_entry(private, param):
     public.created_date = private.created_date
     public.eid = param.get('eid')
     public.screenshot = param.get('screenshot')
+    public.bookmark_count = param.get('bookmark_count')
     private.delete()
     public.put()
     return public
+
+def delete_all():
+    for entry in PublicEntry.all():
+        entry.delete()
+    for entry in PrivateEntry.all():
+        entry.delete()
+    for comment in BookmarkComment.all():
+        comment.delete()

@@ -27,7 +27,7 @@
           ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
           <p>
             {{ entry.content|safe }}
-            （省略されました・・全てを読むには<a href="">ここ</a>を押してください）</br>
+            （省略されました・・全てを読むには<a href="{{ entry.url }}">ここ</a>を押してください）</br>
           </p>
           </br>
           

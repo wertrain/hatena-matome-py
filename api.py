@@ -33,7 +33,8 @@ def openentry():
     entry = json.loads(hatena.fetch_entry(private.url))
     public = datastore.publish_entry(private, {
         'eid': entry['eid'],
-        'screenshot': entry['screenshot']
+        'screenshot': entry['screenshot'],
+        'bookmark_count': len(entry['bookmarks'])
     })
     comments = []
     for bookmark in entry['bookmarks']:
@@ -60,3 +61,8 @@ def openentry():
             })
             time.sleep(0.1)
     return 'publish entry - ' + public.url
+
+@apis.route('/system/deleteall')
+def deleteall():
+    datastore.delete_all()
+    return 'delete'

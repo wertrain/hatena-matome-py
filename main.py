@@ -2,6 +2,7 @@
 import logging
 import json
 import time
+import pickle
 from api import apis
 from datetime import datetime
 from flask import Flask, render_template
@@ -17,8 +18,13 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 @app.route('/')
 def home():
-    entries = datastore.get_public_entries()
-    return render_template('home.html', entries=entries)
+    memcache_key = 'public_entries';
+    entries = memcache.get(memcache_key)
+    if entries is None:
+        entries = pickle.dumps(datastore.get_public_entries())
+        memcache.add(memcache_key, entries, 60 * 60 * 24)
+    entries = pickle.loads(str(entries))
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry())
 
 @app.route('/hotentries')
 def hotentries():
@@ -33,8 +39,19 @@ def hotentries():
 
 def __sidebar_entry():
     """サイドバー表示を管理"""
-    entries = datastore.get_public_entries()
-    return entries
+    memcache_key = 'public_entries';
+    newer = memcache.get(memcache_key)
+    if newer is None:
+        newer = pickle.dumps(datastore.get_public_entries())
+        memcache.add(memcache_key, newer, 60 * 60 * 24)
+    newer = pickle.loads(str(newer))
+    memcache_key = 'public_entries';
+    popular = memcache.get(memcache_key)
+    if popular is None:
+        popular = pickle.dumps(datastore.get_public_entries())
+        memcache.add(memcache_key, popular, 60 * 60 * 24)
+    popular = pickle.loads(str(popular))
+    return {'newer': newer[:6], 'popular': popular[:6]}
 
 @app.route('/entry/<eid>')
 def entry(eid):
@@ -47,7 +64,7 @@ def entry(eid):
           'data': comment,
           'score': __style_from_score(hatena.get_star_score(comment)),
         })
-    return render_template('entry.html', entry=entry, comments=comments)
+    return render_template('entry.html', entry=entry, comments=comments, sidebar_entries=__sidebar_entry())
 
 def __style_from_score(score):
     """スコアを計算して、0-9の値を返す"""
@@ -60,7 +77,8 @@ def __style_from_score(score):
 @app.route('/category/<category>')
 def category(category):
     """エントリーページを表示する"""
-    return render_template('entry.html')
+    entries = datastore.get_public_entries_in_category(category)
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry())
 
 @app.errorhandler(404)
 def page_not_found(e):
