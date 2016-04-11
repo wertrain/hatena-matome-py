@@ -27,17 +27,19 @@
         <div class="col-sm-8 blog-main-container">
           <div class="blog-main">
 
-          1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
-          ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
-          <p>
+          <small>
+            1 ：<font color="green"><b>★はてなの人気エントリー</b></font>
+            ：{{ entry.published_date.strftime('%Y/%m/%d(%a) %H:%M:%S') }}</br>
+          </small>
             {{ entry.content|safe }}
             （省略されました・・全てを読むには<a href="{{ entry.url }}">ここ</a>を押してください）</br>
-          </p>
           </br>
           
           {% for comment in comments %}
-            {{ (loop.index + 1) }} ：
-            <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+            <small>
+              {{ (loop.index + 1) }} ：
+              <font color="green"><b>はてなのユーザー</b></font>：{{ comment.data.timestamp.strftime('%Y/%m/%d(%a) %H:%M:%S') }} ID:{{ comment.data.hatena_id }}</br>
+            </small>
             <p{% if comment.score != 0 %} class="comment-strong-{{ comment.score }}"{% endif %}>{{ comment.data.comment }}</p>
             </br>
           {% endfor %}
