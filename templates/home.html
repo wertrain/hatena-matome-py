@@ -11,17 +11,7 @@
 {% block content %}
       <div class="row">
         <div class="col-sm-8 blog-main">
-        
-          <div class="blog-header media">
-            <div class="media-left">
-              <img class="media-object" src="/image/hatenabookmark-logomark.svg" width="80" height="80" alt="はてブロゴ">
-            </div>
-            <div class="media-body">
-              <h1 class="blog-title media-heading">はてブのまとめ <small>＠2ちゃんねる風 (´∀｀)</small></h1>
-              <p class="blog-description">はてなブックマークのエントリーとコメントをまとめています</p>
-            </div>
-          </div>
-          
+
           {% for entry in entries %}
           <div class="blog-post-container clearfix">
             <div class="blog-post">
