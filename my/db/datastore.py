@@ -90,6 +90,12 @@ def get_public_entries_in_category(category, limit=10, offset=0):
         entries.append(entry)
     return entries
 
+def get_popular_entries(limit=10, offset=0):
+    entries = []
+    for entry in PublicEntry.all().order('-bookmark_count').run(limit=limit, offset=offset):
+        entries.append(entry)
+    return entries
+
 def publish_entry(private, param):
     public = PublicEntry()
     public.title = private.title

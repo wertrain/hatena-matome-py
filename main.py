@@ -37,6 +37,16 @@ def page(page):
     entries = pickle.loads(str(entries))
     return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=int(page))
 
+@app.route('/popular')
+def popular():
+    memcache_key = 'get_popular_entries';
+    entries = memcache.get(memcache_key)
+    if entries is None:
+        entries = pickle.dumps(datastore.get_popular_entries(limit=ENTRIES_PER_PAGE))
+        memcache.add(memcache_key, entries, 60 * 60 * 24)
+    entries = pickle.loads(str(entries))
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=0)
+
 def __sidebar_entry():
     """サイドバー表示を管理"""
     memcache_key = 'public_entries';
@@ -45,10 +55,10 @@ def __sidebar_entry():
         newer = pickle.dumps(datastore.get_public_entries())
         memcache.add(memcache_key, newer, 60 * 60 * 24)
     newer = pickle.loads(str(newer))
-    memcache_key = 'public_entries';
+    memcache_key = 'get_popular_entries';
     popular = memcache.get(memcache_key)
     if popular is None:
-        popular = pickle.dumps(datastore.get_public_entries())
+        popular = pickle.dumps(datastore.get_popular_entries())
         memcache.add(memcache_key, popular, 60 * 60 * 24)
     popular = pickle.loads(str(popular))
     return {'newer': newer[:6], 'popular': popular[:6]}
