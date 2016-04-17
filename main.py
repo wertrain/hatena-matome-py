@@ -14,15 +14,28 @@ app.config['DEBUG'] = True
 
 logging.getLogger().setLevel(logging.DEBUG)
 
+# 1ページあたりに表示する記事件数
+ENTRIES_PER_PAGE = 10
+
 @app.route('/')
 def home():
     memcache_key = 'public_entries';
     entries = memcache.get(memcache_key)
     if entries is None:
-        entries = pickle.dumps(datastore.get_public_entries())
+        entries = pickle.dumps(datastore.get_public_entries(limit=ENTRIES_PER_PAGE))
         memcache.add(memcache_key, entries, 60 * 60 * 24)
     entries = pickle.loads(str(entries))
-    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry())
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=0)
+
+@app.route('/<page>')
+def page(page):
+    memcache_key = 'public_entries_' + page;
+    entries = memcache.get(memcache_key)
+    if entries is None:
+        entries = pickle.dumps(datastore.get_public_entries(limit=ENTRIES_PER_PAGE, offset=(ENTRIES_PER_PAGE * int(page))))
+        memcache.add(memcache_key, entries, 60 * 60 * 24)
+    entries = pickle.loads(str(entries))
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=int(page))
 
 def __sidebar_entry():
     """サイドバー表示を管理"""
