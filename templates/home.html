@@ -15,7 +15,16 @@
           {% for entry in entries %}
           <div class="blog-post-container clearfix">
             <div class="blog-post">
-              <h3 class="blog-post-title"><a href="/entry/{{ entry['eid'] }}">{{ entry['title'] }}</a></h3>
+            
+              <div class="media">
+                <div class="media-left">
+                  <img class="media-object" src="/static/image/2ch/boon_01.gif" alt="...">
+                </div>
+                <div class="media-body">
+                  <h1 class="media-heading blog-post-title"><a href="/entry/{{ entry['eid'] }}">{{ entry['title'] }}</a></h1>
+                </div>
+              </div>
+              
               <p class="blog-post-meta">{{ entry['created_date'].strftime('%Y/%m/%d %H:%M:%S') }} <a href="/category/{{ entry['categories'][0] }}">{{ entry['categories'][0] }}</a></p>
 
               <img class="img-responsive pull-left" style='padding:0; margin:0 15px 15px 0;' src="{{ entry['screenshot'] }}" alt="{{ entry['title'] }} のスクリーンショット">
