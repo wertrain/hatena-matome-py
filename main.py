@@ -18,24 +18,16 @@ logging.getLogger().setLevel(logging.DEBUG)
 ENTRIES_PER_PAGE = 10
 
 @app.route('/')
-def home():
-    memcache_key = 'public_entries';
-    entries = memcache.get(memcache_key)
-    if entries is None:
-        entries = pickle.dumps(datastore.get_public_entries(limit=ENTRIES_PER_PAGE))
-        memcache.add(memcache_key, entries, 60 * 60 * 24)
-    entries = pickle.loads(str(entries))
-    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=0)
-
 @app.route('/<page>')
-def page(page):
-    memcache_key = 'public_entries_' + page;
+def home(page=None):
+    pageNum = 0 if page == None else int(page)
+    memcache_key = 'public_entries_' + str(pageNum);
     entries = memcache.get(memcache_key)
     if entries is None:
-        entries = pickle.dumps(datastore.get_public_entries(limit=ENTRIES_PER_PAGE, offset=(ENTRIES_PER_PAGE * int(page))))
+        entries = pickle.dumps(datastore.get_public_entries(limit=ENTRIES_PER_PAGE, offset=(ENTRIES_PER_PAGE * pageNum)))
         memcache.add(memcache_key, entries, 60 * 60 * 24)
     entries = pickle.loads(str(entries))
-    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=int(page))
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=pageNum)
 
 @app.route('/popular')
 def popular():
@@ -85,10 +77,20 @@ def __style_from_score(score):
     return 0
 
 @app.route('/category/<category>')
-def category(category):
+@app.route('/category/<category>/<page>')
+def category(category, page=None):
     """エントリーページを表示する"""
-    entries = datastore.get_public_entries_in_category(category)
-    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry())
+    if page == None:
+        pageNum = 0
+    else:
+        pageNum = int(page)
+    memcache_key = 'public_entries_in_category_' + str(pageNum);
+    entries = memcache.get(memcache_key)
+    if entries is None:
+        entries = pickle.dumps(datastore.get_public_entries_in_category(category, limit=ENTRIES_PER_PAGE, offset=(ENTRIES_PER_PAGE * pageNum)))
+        memcache.add(memcache_key, entries, 60 * 60 * 24)
+    entries = pickle.loads(str(entries))
+    return render_template('home.html', entries=entries, sidebar_entries=__sidebar_entry(), page=pageNum)
 
 @app.errorhandler(404)
 def page_not_found(e):
