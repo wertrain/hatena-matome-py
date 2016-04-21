@@ -58,7 +58,7 @@ def openentry():
                 'blue_star_count': hatena.get_star_count(stars, 'blue')
             })
             time.sleep(0.1)
-    return 'publish entry - ' + public.url
+    return 'publish entry ' + public.url
 
 @apis.route('/system/deleteall')
 def deleteall():

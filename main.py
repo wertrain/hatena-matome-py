@@ -80,10 +80,7 @@ def __style_from_score(score):
 @app.route('/category/<category>/<page>')
 def category(category, page=None):
     """エントリーページを表示する"""
-    if page == None:
-        pageNum = 0
-    else:
-        pageNum = int(page)
+    pageNum = 0 if page == None else int(page)
     memcache_key = 'public_entries_in_category_' + str(pageNum);
     entries = memcache.get(memcache_key)
     if entries is None:
