@@ -81,7 +81,7 @@ def __style_from_score(score):
 def category(category, page=None):
     """エントリーページを表示する"""
     pageNum = 0 if page == None else int(page)
-    memcache_key = 'public_entries_in_category_' + str(pageNum);
+    memcache_key = 'public_entries_in_category_' + category + '_' + str(pageNum);
     entries = memcache.get(memcache_key)
     if entries is None:
         entries = pickle.dumps(datastore.get_public_entries_in_category(category, limit=ENTRIES_PER_PAGE, offset=(ENTRIES_PER_PAGE * pageNum)))
