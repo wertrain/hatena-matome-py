@@ -41,7 +41,7 @@ def popular():
 
 def __sidebar_entry():
     """サイドバー表示を管理"""
-    memcache_key = 'public_entries';
+    memcache_key = 'get_public_entries';
     newer = memcache.get(memcache_key)
     if newer is None:
         newer = pickle.dumps(datastore.get_public_entries())
