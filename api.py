@@ -27,6 +27,7 @@ def hotentry():
 def openentry():
     private = datastore.get_private_entry()
     if private == None:
+        logging.info('/system/openentry - no entry')
         return 'empty entry.'
     entry = json.loads(hatena.fetch_entry(private.url))
     public = datastore.publish_entry(private, {
@@ -42,6 +43,7 @@ def openentry():
             stars = hatena.fetch_comment_star(bookmark['user'], commentat, entry['eid'])
             # スター数が取れなかった場合 API の連続呼び出しで規制を受けた可能性がある
             if stars is None:
+                logging.error('error - fetch_comment_star')
                 return 'process interrupt';
             stars = json.loads(stars)
             # コメントがあるが、スター部分の形式が違うものがあるので除外
