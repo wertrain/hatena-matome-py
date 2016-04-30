@@ -5,6 +5,14 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /robots.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+
+- url: /system/.*
+  script: main.app
+  login: admin
+
 - url: /image/.*\.svg
   static_dir: static/image
   http_headers:

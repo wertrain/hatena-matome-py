@@ -1,0 +1,10 @@
+cron:
+- description: エントリーをタスクに保存する
+  url: /system/hotentry
+  schedule: every 3 hours
+  timezone: Asia/Tokyo
+
+- description: タスクからエントリーを取り出し、公開エントリーとして登録する
+  url: /system/openentry
+  schedule: every 60 minutes
+  timezone: Asia/Tokyo
