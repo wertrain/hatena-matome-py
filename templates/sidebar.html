@@ -24,8 +24,8 @@
               <table class="table">
                 <tbody class="ranking">
                   {% for entry in sidebar_entries['popular'] %}
-                  <tr>
-                    <td class="order"></td>
+                  <tr class="ranking-item">
+                    <td><span class="order"></span></td>
                     <td><a href="/entry/{{ entry['eid'] }}">{{ entry['title'] }}</a> <span class="badge">{{ entry['bookmark_count'] }} Bookmark</span></td>
                   </tr>
                   {% endfor %}

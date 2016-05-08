@@ -180,9 +180,48 @@ h6, .h6 {
   counter-reset: ranking;
 }
 
+.ranking .order {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+  color: #aaa;
+  vertical-align: 20px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 16px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
 .ranking .order::before {
   content: counter(ranking);
   counter-increment: ranking;
+  display: inline-block;
+  font-size: 1.0rem;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.ranking .ranking-item:nth-of-type(1) .order,
+.ranking .ranking-item:nth-of-type(2) .order,
+.ranking .ranking-item:nth-of-type(3) .order {
+  border: none;
+  color: #fff;
+  font-weight: normal;
+  line-height: 18px;
+}
+.ranking .ranking-item:nth-of-type(1) .order {
+  background-color: #dab413;
+}
+.ranking .ranking-item:nth-of-type(2) .order {
+  background-color: #6e7b84;
+}
+.ranking .ranking-item:nth-of-type(3) .order {
+  background-color: #a0541a;
 }
 
 /* Pagination */
