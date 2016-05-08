@@ -176,6 +176,14 @@ h6, .h6 {
   margin-bottom: 0;
 }
 
+.ranking {
+  counter-reset: ranking;
+}
+
+.ranking .order::before {
+  content: counter(ranking);
+  counter-increment: ranking;
+}
 
 /* Pagination */
 .pager {
